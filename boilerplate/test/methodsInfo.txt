@@ -1,0 +1,10 @@
+1. Calling a function on Blockchain call():
+  
+  This does not require any gas so its free to do & it cannot modify any data on the
+  Blockchain. They can return a data & runs instantly.
+
+2. Sending a transaction to a function send({from:"",gas:""}):
+   
+   Its costs money/gas & will take time. Then can modify contracts data & returns
+   txn hash, txn hash is more like a transaction receipt.
+  
