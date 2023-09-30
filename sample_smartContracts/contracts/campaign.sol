@@ -21,7 +21,7 @@ contract Campaign {
         require(msg.sender == manager, "Only the manager can call this function");
         _;
     }
-constructo(uint256 minimum) 
+constructor(uint256 minimum) 
 {
   manager = payable(msg.sender);
         minimumContribution = minimum;
