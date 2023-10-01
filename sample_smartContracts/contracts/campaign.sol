@@ -1,6 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
+contract CampaignFactory {
+    address[] public deployedCampaigns;
+
+    function createCampaign(uint256 minimum) public {
+        address newCampaign = address(new Campaign(minimum,msg.sender));
+        deployedCampaigns.push(newCampaign);
+    }
+
+    function getDeployedCampaigns() public view returns( address[] memory){
+      return deployedCampaigns;
+    }
+}
+
 contract Campaign {
     struct Request {
         string description;
@@ -21,17 +34,19 @@ contract Campaign {
         require(msg.sender == manager, "Only the manager can call this function");
         _;
     }
-constructor(uint256 minimum) 
-{
-  manager = payable(msg.sender);
-        minimumContribution = minimum;
-}
+    
+    constructor(uint256 minimum,address creator){
+         manager = payable(creator);
+         minimumContribution = minimum;
+     }
+
    function contribute() public payable {
         require(msg.value > minimumContribution, "Contribution amount is less than the minimum required");
         contributors[msg.sender] = true;
         contributorsCount++;
     }
-function createRequest(string memory description, uint256 value, address payable recipient) public restricted {
+
+    function createRequest(string memory description, uint256 value, address payable recipient) public restricted {
           Request storage newRequest = requests.push();
           newRequest.description = description;
           newRequest.value = value;
@@ -61,8 +76,6 @@ function createRequest(string memory description, uint256 value, address payable
         request.complete = true;
     }
 }
-
-
 
 
 
